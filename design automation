@@ -1,5 +1,3 @@
-'use strict'; // http://www.w3schools.com/js/js_strict.asp
-
 // web framework
 var express = require('express');
 var router = express.Router();
@@ -51,9 +49,7 @@ async function daRequest(req, path, method, headers, body) {
     } 
 }
 
-/////////////////////////////////////////////////////////////////
 // Items (AppBundles and Activities)
-/////////////////////////////////////////////////////////////////
 
 function getNameParts(name) {
     var parts1 = name.split('.');
@@ -227,10 +223,11 @@ async function createItemAlias(req, type, id, version, alias, receiver) {
     };
     if (receiver && receiver != "")
       data.receiver = receiver;
+      return response;
 
     let response = await daRequest(req, `${type}/${id}/aliases`, 'POST', null, data);
 
-    return response; 
+     
 }
 
 async function deleteItemAlias(req, type, id, alias) {
@@ -388,11 +385,7 @@ router.delete('/:type/:id', async function(req, res) {
         res.status(ex.statusCode ? ex.statusCode : 500).json({ message: (ex.message ? ex.message : ex) });
     }
 });
-
-/////////////////////////////////////////////////////////////////
 // WorkItems
-/////////////////////////////////////////////////////////////////
-
 router.get('/workitems/treeNode', async function(req, res) {
     console.log('GET /workitems/treeNode');
     try {
@@ -452,10 +445,8 @@ router.get('/report/:url', async function(req, res) {
     }
 });
 
-/////////////////////////////////////////////////////////////////
 // Collects the information that we need to pass to the
-// file tree object on the client
-/////////////////////////////////////////////////////////////////
+// file tree object on the cliet
 function makeTree(items, type, prefix) {
     if (!items) return '';
     var treeList = [];
